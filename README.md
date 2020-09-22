@@ -1,4 +1,4 @@
-This repo contains the technical instructions to complete an end-to-end scenario for using Dapr with Azure API Management Self-Hosted Gateway.  More information can be found on this [blog](https://yourazurecoach.com/blog).
+This repo contains the technical instructions to complete an end-to-end scenario for using Dapr with Azure API Management Self-Hosted Gateway.  More information can be found on this [blog](https://yourazurecoach.com/2020/09/22/azure-api-management-integration-with-dapr/).
 
 ## Setup your environment
 
