@@ -1,0 +1,27 @@
+### GET Health
+GET https://localhost:8081/sales/health
+
+
+### POST Order
+POST https://localhost:8081/sales/order
+Content-Type: application/json
+
+{
+    "name": "Microsoft Order",
+    "reference": "MICROSOFT-INC-X1",
+    "date": "2020-06-15T13:45:30",
+    "amount": 326842
+}
+
+### GET Orders
+GET https://localhost:8081/sales/order
+
+
+### GET Order 1
+GET https://localhost:8081/sales/order/1
+
+### GET Order 2
+GET https://localhost:8081/sales/order/2
+
+
+

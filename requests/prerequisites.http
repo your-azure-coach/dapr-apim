@@ -1,0 +1,40 @@
+### Test Service Invocation
+POST http://localhost:3500/v1.0/invoke/httpbin-app/method/post
+
+This is my test body
+
+
+### Update the customer state store with required values
+POST http://localhost:3500/v1.0/state/state-store-orders
+Content-Type: application/json
+
+[
+    {
+        "key": "1",
+        "value": {
+            "id": "1",
+            "name": "Contoso Order",
+            "reference": "CONTOSO-INC-X1",
+            "date": "2020-06-15T13:45:30",
+            "amount": 126500
+        }
+    },
+    {
+        "key": "2",
+        "value": {
+            "id": "2",
+            "name": "Northwind BE Order",
+            "reference": "NWB1XXX-98",
+            "date": "2020-08-11T11:32:57",
+            "amount": 983216
+        }
+    }
+]
+
+
+### Validate if the customer state store is updated correctly
+GET http://localhost:3500/v1.0/state/state-store-orders/1
+
+
+### Validate if the customer state store is updated correctly
+GET http://localhost:3500/v1.0/state/state-store-orders/2

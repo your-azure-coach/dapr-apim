@@ -1,0 +1,72 @@
+# NOTE: Before deploying to a production environment, please review the documentation -> https://aka.ms/self-hosted-gateway-production
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: local-apim-gateway-env
+data:
+  config.service.endpoint: "https://yac-apim-demos.management.azure-api.net/subscriptions/99da81c1-72ed-4a56-8c96-f360dbd22610/resourceGroups/yac-apim-demos/providers/Microsoft.ApiManagement/service/yac-apim-demos?api-version=2019-12-01"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: local-apim-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: local-apim-gateway
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 25%
+  template:
+    metadata:
+      labels:
+        app: local-apim-gateway
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: local-apim-gateway
+        image: mcr.microsoft.com/azure-api-management/gateway:latest
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: https
+          containerPort: 8081
+        readinessProbe:
+          httpGet:
+            path: /internal-status-0123456789abcdef
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 0
+          periodSeconds: 5
+          failureThreshold: 3
+          successThreshold: 1
+        env:
+        - name: config.service.auth
+          valueFrom:
+            secretKeyRef:
+              name: local-apim-gateway-token
+              key: value
+        envFrom:
+        - configMapRef:
+            name: local-apim-gateway-env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: local-apim-gateway
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+  - name: https
+    port: 443
+    targetPort: 8081
+  selector:
+    app: local-apim-gateway

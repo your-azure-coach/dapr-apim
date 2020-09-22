@@ -1,0 +1,17 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: state-store-orders
+spec:
+  type: state.azure.tablestorage
+  metadata:
+  - name: accountName
+    secretKeyRef:
+      name: dapr-apim-storage
+      key: accountName
+  - name: accountKey
+    secretKeyRef:
+      name: dapr-apim-storage
+      key: accountKey
+  - name: tableName
+    value: orders

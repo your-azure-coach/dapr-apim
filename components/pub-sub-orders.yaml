@@ -1,0 +1,13 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: pub-sub-orders
+spec:
+  type: pubsub.azure.servicebus
+  metadata:
+  - name: connectionString
+    secretKeyRef:
+      name: dapr-apim-service-bus
+      key: connectionString
+  - name: consumerID
+    value: local-apim-gateway 
